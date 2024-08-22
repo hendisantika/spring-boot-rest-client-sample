@@ -12,6 +12,20 @@ API Consumed:
 
 https://jsonplaceholder.typicode.com/users
 
+Testing
+
+There are few ways to test RestClient.
+
+1. Using Mockito
+2. Using RestClientTest
+3. Using Stubs(Eg: WireMock)
+   As this is a fluent API, mocking the client will make the tests look cumbersome and is not recommended as wee have to
+   mock each step.
+
+Using RestClientTest also needs a RestClientBuilder rather than a RestClient
+
+So the way to test this would be using @WireMockTest
+
 ### Things todo list
 
 1. Clone this repository: `git clone https://github.com/hendisantika/spring-boot-rest-client-sample.git`
