@@ -25,9 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class SatuSehatController {
     private final SatuSehatClient satuSehatClient;
 
-    //    @GetMapping(value = "/token", consumes = "application/x-www-form-urlencoded", produces = "application/json")
     @GetMapping(value = "/token")
     public TokenResponse getToken() {
-        return satuSehatClient.getToken();
+        return satuSehatClient.getToken4();
     }
 }
