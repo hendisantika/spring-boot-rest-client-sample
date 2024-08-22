@@ -4,9 +4,13 @@ Spring Framework 6.1-M2 has introduced a new Synchronous HTTP client. It has an 
 but is a fluent API and hence is similar to Web Client , but is Synchronous.
 
 RestClient is a Fluent API and hence allows to have method chaining unlike RestTemplate. It is recommended to move from
-RestTemplatee to RestClient as per Spring Docs
+RestTemplate to RestClient as per Spring Docs
 
 Let's start by creating a Demo Project to dive into the features of Rest Client.
+
+API Consumed:
+
+https://jsonplaceholder.typicode.com/users
 
 ### Things todo list
 
