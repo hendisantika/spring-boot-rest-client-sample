@@ -3,8 +3,10 @@ package id.my.hendisantika.restclientsample.client;
 import id.my.hendisantika.restclientsample.dto.Comment;
 import id.my.hendisantika.restclientsample.dto.Post;
 import id.my.hendisantika.restclientsample.dto.User;
+import id.my.hendisantika.restclientsample.exception.CommentsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -67,10 +69,12 @@ public class JsonPlaceHolderClient {
                 });
     }
 
-    public Comment getCommentsByPost(int postId) {
+    public List<Comment> getCommentsByPost(int postId) {
         return restClient.get()
                 .uri((uriBuilder -> uriBuilder.path("/comments").queryParam("postId", postId).build()))
-                .retrieve()
+                .retrieve().onStatus(HttpStatusCode::isError, ((request, response) -> {
+                    throw new CommentsException("Error Occurred");
+                }))
                 .body(new ParameterizedTypeReference<>() {
                 });
     }
