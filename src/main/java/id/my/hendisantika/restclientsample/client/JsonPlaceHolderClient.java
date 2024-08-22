@@ -1,5 +1,7 @@
 package id.my.hendisantika.restclientsample.client;
 
+import id.my.hendisantika.restclientsample.dto.Comment;
+import id.my.hendisantika.restclientsample.dto.Post;
 import id.my.hendisantika.restclientsample.dto.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
@@ -47,5 +49,29 @@ public class JsonPlaceHolderClient {
                 .body(user)
                 .retrieve()
                 .body(User.class);
+    }
+
+    public List<Post> getPosts() {
+        return restClient.get()
+                .uri("/posts")
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {
+                });
+    }
+
+    public Post getPostById(int id) {
+        return restClient.get()
+                .uri("/posts")
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {
+                });
+    }
+
+    public Comment getCommentsByPost(int postId) {
+        return restClient.get()
+                .uri((uriBuilder -> uriBuilder.path("/comments").queryParam("postId", postId).build()))
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {
+                });
     }
 }
