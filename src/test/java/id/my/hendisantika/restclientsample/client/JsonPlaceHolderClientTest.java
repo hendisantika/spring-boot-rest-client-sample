@@ -4,7 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.common.JsonException;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
+import id.my.hendisantika.restclientsample.dto.Address;
+import id.my.hendisantika.restclientsample.dto.Company;
+import id.my.hendisantika.restclientsample.dto.Geo;
 import id.my.hendisantika.restclientsample.dto.Post;
+import id.my.hendisantika.restclientsample.dto.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,5 +54,25 @@ class JsonPlaceHolderClientTest {
 
         List<Post> actualResponse = jsonPlaceHolderClient.getPosts();
         Assertions.assertEquals(posts, actualResponse);
+    }
+
+    @Test
+    void shouldReturnTheListOfUsersOnSuccess() throws JsonException, JsonProcessingException {
+        Geo geo = new Geo("-37.3159", "81.1496");
+        Address address = new Address("Tokyo", "Tokyo", "Tokyo", "12390", geo);
+        Company company = new Company("Jujustru", "Jujutsu", "JUJUTSU");
+        User user = new User(1, "Itadori Yuji", "yuji", "yuji@yopmail.com", address,
+                "+6281321411511", "jujustsu.com", company);
+
+        List<User> userList = List.of(user);
+
+        stubFor(get("/users").willReturn(aResponse()
+                .withStatus(200)
+                .withHeader("Content-Type", "application/json")
+                .withBody(objectMapper.writeValueAsString(userList))
+        ));
+
+        List<User> actualResponse = jsonPlaceHolderClient.getUsers();
+        Assertions.assertEquals(userList, actualResponse);
     }
 }
