@@ -75,4 +75,14 @@ class JsonPlaceHolderClientTest {
         List<User> actualResponse = jsonPlaceHolderClient.getUsers();
         Assertions.assertEquals(userList, actualResponse);
     }
+
+//    void getTokenTest(){
+//        HttpClient client = HttpClientBuilder.create().build();
+//        Http request = new Http("https://api-satusehat-stg.dto.kemkes.go.id/oauth2/v1/accesstoken?grant_type=client_credentials");
+//        HttpResponse response = client.execute(request);
+//        int statusCode = response.getStatusLine().getStatusCode();
+//        String responseBody = EntityUtils.toString(response.getEntity());
+//        System.out.println("Status Code: " + statusCode);
+//        System.out.println("Response Body: " + responseBody);
+//    }
 }
