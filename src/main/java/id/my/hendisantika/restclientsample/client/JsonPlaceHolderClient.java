@@ -3,6 +3,7 @@ package id.my.hendisantika.restclientsample.client;
 import id.my.hendisantika.restclientsample.dto.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
@@ -29,5 +30,22 @@ public class JsonPlaceHolderClient {
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {
                 });
+    }
+
+    public User getUserById(int id) {
+        return restClient.get()
+                .uri((uriBuilder) -> uriBuilder.path("/users/" + id).build())
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {
+                });
+    }
+
+    public User addUser(User user) {
+        return restClient.post()
+                .uri("/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(user)
+                .retrieve()
+                .body(User.class);
     }
 }
