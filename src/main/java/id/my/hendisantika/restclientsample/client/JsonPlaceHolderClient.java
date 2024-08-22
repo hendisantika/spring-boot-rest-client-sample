@@ -5,6 +5,7 @@ import id.my.hendisantika.restclientsample.dto.Post;
 import id.my.hendisantika.restclientsample.dto.User;
 import id.my.hendisantika.restclientsample.exception.CommentsException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
@@ -26,10 +27,11 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class JsonPlaceHolderClient {
-    private final RestClient restClient;
+    @Qualifier("restClientJsonPlaceHolder")
+    private final RestClient restClientJsonPlaceHolder;
 
     public List<User> getUsers() {
-        return restClient.get()
+        return restClientJsonPlaceHolder.get()
                 .uri("/users")
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {
@@ -37,7 +39,7 @@ public class JsonPlaceHolderClient {
     }
 
     public User getUserById(int id) {
-        return restClient.get()
+        return restClientJsonPlaceHolder.get()
                 .uri((uriBuilder) -> uriBuilder.path("/users/" + id).build())
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {
@@ -45,7 +47,7 @@ public class JsonPlaceHolderClient {
     }
 
     public User addUser(User user) {
-        return restClient.post()
+        return restClientJsonPlaceHolder.post()
                 .uri("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(user)
@@ -54,7 +56,7 @@ public class JsonPlaceHolderClient {
     }
 
     public List<Post> getPosts() {
-        return restClient.get()
+        return restClientJsonPlaceHolder.get()
                 .uri("/posts")
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {
@@ -62,7 +64,7 @@ public class JsonPlaceHolderClient {
     }
 
     public Post getPostById(int id) {
-        return restClient.get()
+        return restClientJsonPlaceHolder.get()
                 .uri("/posts")
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {
@@ -70,7 +72,7 @@ public class JsonPlaceHolderClient {
     }
 
     public List<Comment> getCommentsByPost(int postId) {
-        return restClient.get()
+        return restClientJsonPlaceHolder.get()
                 .uri((uriBuilder -> uriBuilder.path("/comments").queryParam("postId", postId).build()))
                 .retrieve().onStatus(HttpStatusCode::isError, ((request, response) -> {
                     throw new CommentsException("Error Occurred");
