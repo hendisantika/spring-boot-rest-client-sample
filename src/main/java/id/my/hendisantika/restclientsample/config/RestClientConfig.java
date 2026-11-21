@@ -1,6 +1,5 @@
 package id.my.hendisantika.restclientsample.config;
 
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestClient;
@@ -18,17 +17,17 @@ import org.springframework.web.client.RestClient;
 @Configuration
 public class RestClientConfig {
     @Bean
-    public RestClient restClientJsonPlaceHolder(RestTemplateBuilder builder) {
-        return RestClient.create(builder
-                .rootUri("https://jsonplaceholder.typicode.com")
-                .build());
+    public RestClient restClientJsonPlaceHolder() {
+        return RestClient.builder()
+                .baseUrl("https://jsonplaceholder.typicode.com")
+                .build();
     }
 
     @Bean
-    public RestClient restClientSatuSehat(RestTemplateBuilder builder) {
-        return RestClient.create(builder
-                .rootUri("https://api-satusehat-stg.dto.kemkes.go.id")
-                .build());
+    public RestClient restClientSatuSehat() {
+        return RestClient.builder()
+                .baseUrl("https://api-satusehat-stg.dto.kemkes.go.id")
+                .build();
     }
 
 }

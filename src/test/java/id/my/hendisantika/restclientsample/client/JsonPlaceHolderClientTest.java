@@ -1,7 +1,5 @@
 package id.my.hendisantika.restclientsample.client;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.common.JsonException;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import id.my.hendisantika.restclientsample.dto.Address;
@@ -14,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.client.RestClient;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.List;
 
@@ -38,10 +38,10 @@ class JsonPlaceHolderClientTest {
 
     private final JsonPlaceHolderClient jsonPlaceHolderClient = new JsonPlaceHolderClient(restClient);
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = JsonMapper.builder().build();
 
     @Test
-    void shouldReturnTheListOfPostOnSuccess() throws JsonException, JsonProcessingException {
+    void shouldReturnTheListOfPostOnSuccess() throws JsonException {
         Post post = new Post(1, 1, "Title", "Description");
 
         List<Post> posts = List.of(post);
@@ -57,7 +57,7 @@ class JsonPlaceHolderClientTest {
     }
 
     @Test
-    void shouldReturnTheListOfUsersOnSuccess() throws JsonException, JsonProcessingException {
+    void shouldReturnTheListOfUsersOnSuccess() throws JsonException {
         Geo geo = new Geo("-37.3159", "81.1496");
         Address address = new Address("Tokyo", "Tokyo", "Tokyo", "12390", geo);
         Company company = new Company("Jujustru", "Jujutsu", "JUJUTSU");
