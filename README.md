@@ -1,40 +1,93 @@
 # spring-boot-rest-client-sample
 
-Spring Framework 6.1-M2 has introduced a new Synchronous HTTP client. It has an infrastructure similar to Rest Template,
-but is a fluent API and hence is similar to Web Client , but is Synchronous.
+[![Java CI with Maven](https://github.com/hendisantika/spring-boot-rest-client-sample/actions/workflows/maven.yml/badge.svg)](https://github.com/hendisantika/spring-boot-rest-client-sample/actions/workflows/maven.yml)
+![Java](https://img.shields.io/badge/Java-25-orange?logo=openjdk)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1.x-brightgreen?logo=springboot)
+![Maven](https://img.shields.io/badge/Maven-3.10.x-blue?logo=apachemaven)
+[![Dependabot](https://img.shields.io/badge/Dependabot-enabled-025E8C?logo=dependabot)](.github/dependabot.yml)
 
-RestClient is a Fluent API and hence allows to have method chaining unlike RestTemplate. It is recommended to move from
-RestTemplate to RestClient as per Spring Docs
+Spring Framework 6.1 introduced a new synchronous HTTP client, `RestClient`. It has an infrastructure similar to
+`RestTemplate`, but offers a fluent API like `WebClient` while staying synchronous.
 
-Let's start by creating a Demo Project to dive into the features of Rest Client.
+`RestClient` is a fluent API, so it supports method chaining, unlike `RestTemplate`. The Spring docs recommend
+moving from `RestTemplate` to `RestClient`.
 
-API Consumed:
+This demo project shows the main features of `RestClient`.
+
+API consumed:
 
 https://jsonplaceholder.typicode.com/users
 
-Testing
+## Tech Stack
 
-There are few ways to test RestClient.
+| Component    | Version                          |
+|--------------|----------------------------------|
+| Java (JDK)   | 25                               |
+| Spring Boot  | 4.1.x (Spring Framework 7)       |
+| Jackson      | 3.x (`tools.jackson`)            |
+| Maven        | 3.10.x (via Maven Wrapper)       |
+| Lombok       | managed by Spring Boot           |
+| WireMock     | 3.x (`wiremock-standalone`)      |
+
+## Prerequisites
+
+- JDK 25 (e.g. [Eclipse Temurin](https://adoptium.net/))
+- No local Maven install needed; use the bundled wrapper `./mvnw`
+
+## Testing
+
+There are a few ways to test `RestClient`:
 
 1. Using Mockito
-2. Using RestClientTest
-3. Using Stubs(Eg: WireMock)
-   As this is a fluent API, mocking the client will make the tests look cumbersome and is not recommended as wee have to
-   mock each step.
+2. Using `@RestClientTest`
+3. Using stubs (e.g. WireMock)
 
-Using RestClientTest also needs a RestClientBuilder rather than a RestClient
+Because this is a fluent API, mocking the client makes tests cumbersome, since you would have to mock each step.
+`@RestClientTest` also needs a `RestClient.Builder` instead of a `RestClient`.
 
-So the way to test this would be using @WireMockTest
+So this project tests the client with `@WireMockTest` (see `JsonPlaceHolderClientTest`).
 
-### Things todo list
+Run the build and all tests:
+
+```shell
+./mvnw clean verify
+```
+
+## Things to do
 
 1. Clone this repository: `git clone https://github.com/hendisantika/spring-boot-rest-client-sample.git`
 2. Navigate to the folder: `cd spring-boot-rest-client-sample`
-3. Run the application: `mvn clean spring-boot:run`
-4. Open POSTMAN Collection file
+3. Run the application: `./mvnw clean spring-boot:run`
+4. Import the Postman collection `Spring Boot Rest Client Sample.postman_collection.json`
 5. Open your favorite browser: http://localhost:8080/api/v1/users
 
-### Shell Commands
+## Endpoints
+
+| Method | Path                        | Description                     |
+|--------|-----------------------------|---------------------------------|
+| GET    | `/api/v1/users`             | Get all users                   |
+| GET    | `/api/v1/users/{userId}`    | Get a user by ID                |
+| POST   | `/api/v1/users`             | Add a new user                  |
+| GET    | `/api/v1/posts`             | Get all posts                   |
+| GET    | `/api/v1/comments/{postId}` | Get comments of a post          |
+| GET    | `/api/v1/token`             | Get a SATUSEHAT access token    |
+
+## CI/CD
+
+- **Java CI with Maven** (`.github/workflows/maven.yml`): builds and tests with JDK 25 on every push and pull
+  request to `main`.
+- **Azure Web App** (`.github/workflows/main_test6.yml`): builds the JAR on every push. The deploy job runs only when
+  you trigger it manually (`workflow_dispatch`).
+
+## Dependabot
+
+`.github/dependabot.yml` keeps dependencies up to date:
+
+- **Maven**: checked daily at 21:00 (Asia/Jakarta). Updates are grouped (`spring-boot`, `testing`,
+  `maven-plugins`, `minor-and-patch`) and use the `build(deps)` commit prefix.
+- **GitHub Actions**: checked weekly on Monday, grouped into one PR, using the `ci(deps)` commit prefix.
+
+## Shell Commands
 
 Add New User
 
